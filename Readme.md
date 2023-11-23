@@ -15,7 +15,7 @@ This example demonstrates how to drag and drop appointment info from [ASPxSchedu
 
 ## Implementation Details
 
-The built-in drag-and-drop functionality within the **ASPxScheduler** can conflict with a custom implementation. To resolve the conflict, add a `div` element (drag panel) to an appointment template and disable the built-in drag-and-drop functionality in its `onmousedown` event handler.
+The built-in drag-and-drop functionality in the **ASPxScheduler** can conflict with a custom implementation. To resolve the conflict, add a `div` element (drag panel) to an appointment template and disable the built-in drag-and-drop functionality in its `onmousedown` event handler.
 
 ```aspx
 <div class="draggable" style="background: blue;" onmousedown="DragPanelHold();">
@@ -28,7 +28,7 @@ function DragPanelHold() {
 }
 ```
 
-Attach the [Draggable](https://jqueryui.com/draggable/) jQuery interaction to the drag panel so that it can be dragged. Attach the [Droppable](https://jqueryui.com/droppable/) jQuery interaction to a drop target -- a`div` element with the [ASPxListBox](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxListBox) inside.
+Attach the [Draggable](https://jqueryui.com/draggable/) jQuery interaction to the drag panel so that it can be dragged. Attach the [Droppable](https://jqueryui.com/droppable/) jQuery interaction to a drop target - a`div` element with the [ASPxListBox](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxListBox) inside.
 
 ```aspx
 <div class="droppable">
