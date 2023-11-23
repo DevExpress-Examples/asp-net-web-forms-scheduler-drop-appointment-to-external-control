@@ -3,8 +3,69 @@
 [![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/E4708)
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
-<!-- default file list -->
-*Files to look at*:
+
+# Scheduler for ASP.NET Web Forms - How to drop an appointment from Scheduler to an external control
+<!-- run online -->
+**[[Run Online]](https://codecentral.devexpress.com/e4708/)**
+<!-- run online end -->
+
+This example demonstrates how to drag and drop appointment info from [ASPxScheduler](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxScheduler.ASPxScheduler) to an outside area. 
+
+![](scheduler-with-external-drop-area.png)
+
+## Implementation Details
+
+The built-in drag-and-drop functionality within the **ASPxScheduler** can conflict with a custom implementation. To resolve the conflict, add a "Drag panel" `div` element to an appointment template and disable the built-in drag-and-drop functionality in its client-side `onmousedown` event handler.
+
+```aspx
+<div class="draggable" style="background: blue;" onmousedown="DragPanelHold();">
+```
+
+```js
+function DragPanelHold() {
+    // disable built-in dragging logic
+    setTimeout('scheduler.mouseHandler.SwitchToDefaultState();', 0);
+}
+```
+
+Attach the [Draggable](https://jqueryui.com/draggable/) jQuery interaction to the "Drag panel" so that it can be dragged. Attach the [Droppable](https://jqueryui.com/droppable/) jQuery interaction to a `div` element with the [ASPxListBox](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxListBox) inside. It serves as a drop target. The **appointmentId** value is passed via a hidden field.
+
+```aspx
+<div class="droppable">
+	<dx:ASPxListBox ID="ASPxListBox1" runat="server"  ClientInstanceName="listBox">
+	    <Items>
+	        <dx:ListEditItem Text="Drop appointments here" Value="Drop appointments here" />
+	    </Items>
+	</dx:ASPxListBox>
+</div>
+```
+
+```js
+function InitalizejQuery(s, e) {
+    $('.draggable').draggable({ helper: 'clone', appendTo: 'body', zIndex: 100 });
+    $('.droppable').droppable({
+            activeClass: "dropTargetActive",
+            hoverClass: "dropTargetHover",
+            
+            drop: function (ev, ui) {
+                var appointmentId = $(ui.draggable).find("input[type='hidden']").val();
+                listBox.AddItem(appointmentId);
+                // Additional logic goes here...
+            }
+        }
+    );
+}
+```
+
+Call the `InitalizejQuery` method in the client-side [ASPxGlobalEvents.ControlsInitialized](https://docs.devexpress.com/AspNet/js-ASPxClientGlobalEvents.ControlsInitialized) and [ASPxGlobalEvents.EndCallback](https://docs.devexpress.com/AspNet/js-ASPxClientGlobalEvents.EndCallback) event handlers.
+
+```aspx
+<dx:ASPxGlobalEvents ID="ASPxGlobalEvents1" runat="server">
+	<ClientSideEvents ControlsInitialized="InitalizejQuery" EndCallback="InitalizejQuery" />
+</dx:ASPxGlobalEvents>
+```
+
+## Files to Review
 
 * [CustomEvents.cs](./CS/App_Code/CustomEvents.cs) (VB: [CustomEvents.vb](./VB/App_Code/CustomEvents.vb))
 * [Helpers.cs](./CS/App_Code/Helpers.cs) (VB: [Helpers.vb](./VB/App_Code/Helpers.vb))
@@ -12,61 +73,13 @@
 * [CustomVerticalAppointmentTemplate.ascx.cs](./CS/CustomForms/CustomVerticalAppointmentTemplate.ascx.cs) (VB: [CustomVerticalAppointmentTemplate.ascx.vb](./VB/CustomForms/CustomVerticalAppointmentTemplate.ascx.vb))
 * [Default.aspx](./CS/Default.aspx) (VB: [Default.aspx](./VB/Default.aspx))
 * [Default.aspx.cs](./CS/Default.aspx.cs) (VB: [Default.aspx.vb](./VB/Default.aspx.vb))
-<!-- default file list end -->
-# How to drop an appointment from ASPxScheduler to an external control
-<!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/e4708/)**
-<!-- run online end -->
 
+## Documentation
 
-<p>This example illustrates how to drag and drop appointment info outside the ASPxScheduler area. The main difficulty of implementing this functionality is that the capability to drag appointments within the ASPxScheduler is built-in (see <a href="http://documentation.devexpress.com/#AspNet/CustomDocument3823">Appointments</a>) and can conflict with our implementation. Of course, we can disable this capability by setting the <a href="http://documentation.devexpress.com/#CoreLibraries/DevExpressXtraSchedulerSchedulerOptionsCustomization_AllowAppointmentDragtopic">SchedulerOptionsCustomization.AllowAppointmentDrag Property</a> to the <strong>UsedAppointmentType.None</strong> value. However, it is not an elegant solution. Instead, we will add a special "Drag panel" DIV to an appointment template (see <a href="http://documentation.devexpress.com/#AspNet/CustomDocument4220">How to: Customize Appointment Appearance via Templates</a>) and disable the built-in drag-and-drop functionality in its client-side <strong>onmousedown </strong>event handler by executing the following code:<br><br></p>
+* [How to: Customize Appointment Appearance via Templates](https://docs.devexpress.com/AspNet/4220/components/scheduler/examples/customization/custom-form-and-custom-fields/how-to-customize-appointment-appearance-via-templates)
 
+## More Examples
 
-```js
-// Prior to v15.1:
-setTimeout('if (__aspxDragHelper != null) __aspxDragHelper.cancelDrag();', 0);
-// Starting with v15.1:
-setTimeout('if (ASPx.currentDragHelper != null) ASPx.currentDragHelper.cancelDrag();', 0);
-// Starting with v15.2:
-setTimeout('scheduler.mouseHandler.SwitchToDefaultState();', 0);
-```
-
-
-<p><br>We attach <a href="http://jqueryui.com/draggable/">Draggable</a> interaction from jQuery to our "Drag panel" so that it can be dragged. The DIV with the <a href="http://documentation.devexpress.com/#AspNet/clsDevExpressWebASPxEditorsASPxListBoxtopic">ASPxListBox</a> inside (in the main page' markup) serves as a drop target. We attach <a href="http://jqueryui.com/droppable/">Droppable</a> interaction to it. The source code looks pretty simple:</p>
-<p> </p>
-
-
-```js
-            function InitalizejQuery(s, e) {
-                $('.draggable').draggable({ helper: 'clone', appendTo: 'body', zIndex: 100 });
-                $('.droppable').droppable({
-                        activeClass: "dropTargetActive",
-                        hoverClass: "dropTargetHover",
-                        
-                        drop: function (ev, ui) {
-                            var appointmentId = $(ui.draggable).find("input[type='hidden']").val();
-                            listBox.AddItem(appointmentId);
-                            // Additional logic goes here...
-                        }
-                    }
-                );
-            }
-```
-
-
-<p> </p>
-<p>The appointment Id is passed via the hidden field.</p>
-<p> </p>
-<p>The <strong>InitalizejQuery</strong> method is called from the client-side <strong>ControlsInitialized </strong>and <strong>EndCallback </strong>event handlers of the <a href="http://documentation.devexpress.com/#AspNet/clsDevExpressWebASPxGlobalEventsASPxGlobalEventstopic">ASPxGlobalEvents Class</a>. It is a recommended technique to perform jQuery-related actions with our controls (see <a href="https://www.devexpress.com/Support/Center/p/E3325">ASPxTextBox - How to attach the jQuery AutoComplete plugin</a>).</p>
-<p> </p>
-<p>Here is a screenshot that illustrates a sample application in action during our custom drag-and-drop operation:</p>
-<p> </p>
-<p><img src="https://raw.githubusercontent.com/DevExpress-Examples/how-to-drop-an-appointment-from-aspxscheduler-to-an-external-control-e4708/15.2.5+/media/ea5c6768-7a99-4200-a7b1-eab2c96b38d9.png"></p>
-<p> </p>
-<p><strong>See Also:</strong></p>
-<p><a href="https://www.devexpress.com/Support/Center/p/E4292">ASPxScheduler - How to drag a row from ASPxGridView and create an appointment based on its values</a></p>
-<p><a href="https://www.devexpress.com/Support/Center/p/E4746">How to drop an appointment from an external control onto an ASPxScheduler</a></p>
-
-<br/>
-
-
+* [Text Box for ASP.NET Web Forms - How to apply the jQuery AutoComplete plugin to an editor](https://github.com/DevExpress-Examples/asp-net-web-forms-textbox-apply-jquery-autocomplete-plugin)
+* [How to drag a row from ASPxGridView to ASPxScheduler](https://github.com/DevExpress-Examples/how-to-drag-a-row-from-aspxgridview-to-aspxscheduler-e4292)
+* [How to drag-and-drop an appointment from an external control](https://github.com/DevExpress-Examples/how-to-drop-an-appointment-from-an-external-control-onto-an-aspxscheduler-e4746)
