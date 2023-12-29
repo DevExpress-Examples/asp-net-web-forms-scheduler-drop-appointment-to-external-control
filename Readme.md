@@ -5,9 +5,6 @@
 <!-- default badges end -->
 
 # Scheduler for ASP.NET Web Forms - How to drop an appointment from Scheduler to an external control
-<!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/128546684/)**
-<!-- run online end -->
 
 This example demonstrates how to drag and drop appointment info from [ASPxScheduler](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxScheduler.ASPxScheduler) to an outside area. 
 
