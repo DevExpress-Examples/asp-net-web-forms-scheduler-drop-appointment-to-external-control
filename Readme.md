@@ -78,7 +78,7 @@ Call the `InitalizejQuery` method in the [ASPxGlobalEvents.ControlsInitialized](
 * [Scheduler for ASP.NET Web Forms - How to drag a row from ASPxGridView to ASPxScheduler](https://github.com/DevExpress-Examples/how-to-drag-a-row-from-aspxgridview-to-aspxscheduler-e4292)
 * [Scheduler for ASP.NET Web Forms - How to drag-and-drop an appointment from an external control](https://github.com/DevExpress-Examples/how-to-drop-an-appointment-from-an-external-control-onto-an-aspxscheduler-e4746)
 <!-- feedback -->
-## Does This Example Address Your Development Requirements/Objectives?
+## Does this example address your development requirements/objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=asp-net-web-forms-scheduler-drop-appointment-to-external-control&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=asp-net-web-forms-scheduler-drop-appointment-to-external-control&~~~was_helpful=no)
 
