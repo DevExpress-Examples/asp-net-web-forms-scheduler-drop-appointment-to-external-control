@@ -54,13 +54,12 @@ Partial Public Class [Default]
 	End Sub
 
 	Private Function GetCustomEvents() As CustomEventList
-'INSTANT VB NOTE: The variable events was renamed since Visual Basic does not handle local variables named the same as class members well:
-		Dim events_Conflict As CustomEventList = TryCast(Session("ListBoundModeObjects"), CustomEventList)
-		If events_Conflict Is Nothing Then
-			events_Conflict = GenerateCustomEventList()
-			Session("ListBoundModeObjects") = events_Conflict
+		Dim events As CustomEventList = TryCast(Session("ListBoundModeObjects"), CustomEventList)
+		If events Is Nothing Then
+			events = GenerateCustomEventList()
+			Session("ListBoundModeObjects") = events
 		End If
-		Return events_Conflict
+		Return events
 	End Function
 
 	Protected Sub ASPxScheduler1_AppointmentInserting(ByVal sender As Object, ByVal e As PersistentObjectCancelEventArgs)
