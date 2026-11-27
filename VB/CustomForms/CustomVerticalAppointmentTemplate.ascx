@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="VerticalAppointmentTemplate" CodeFile="CustomVerticalAppointmentTemplate.ascx.cs" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="VerticalAppointmentTemplate" CodeFile="CustomVerticalAppointmentTemplate.ascx.vb" %>
 
 <div id="appointmentDiv" runat="server" class='<%#((VerticalAppointmentTemplateContainer)Container).Items.AppointmentStyle.CssClass %>'>
     <div class="draggable" style="background: blue;" onmousedown="DragPanelHold();">
